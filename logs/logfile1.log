@@ -1,0 +1,155 @@
+Epoch1:
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 875/875 [11:06<00:00,  1.31it/s]
+INFO:root:Evaluation:   Average Loss: 0.860850  Accuracy: 0.7533        Precision: 0.7651       Recall: 0.7533  F1 Score: 0.7550
+INFO:root:Evaluation:   Average Loss: 0.860850
+Epoch2:
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 875/875 [10:56<00:00,  1.33it/s]
+INFO:root:Evaluation:   Average Loss: 0.710224  Accuracy: 0.8197        Precision: 0.8294       Recall: 0.8197  F1 Score: 0.8147
+INFO:root:Evaluation:   Average Loss: 0.710224
+
+
+INFO:root:Found 1 GPUs. Using GPU for computations.
+INFO:root:Checkpoint is loaded and model if finetuning
+INFO:root:Training started.
+INFO:root:Train Epoch: 0	Batch Index: 0	Average Loss: 0.138220
+INFO:root:Train Epoch: 0	Batch Index: 100	Average Loss: 0.217191
+INFO:root:Train Epoch: 0	Batch Index: 200	Average Loss: 0.007247
+INFO:root:Train Epoch: 0	Batch Index: 300	Average Loss: 0.195906
+INFO:root:Train Epoch: 0	Batch Index: 400	Average Loss: 0.552578
+INFO:root:Train Epoch: 0	Batch Index: 500	Average Loss: 0.602696
+INFO:root:Train Epoch: 0	Batch Index: 600	Average Loss: 0.025766
+INFO:root:Train Epoch: 0	Batch Index: 700	Average Loss: 0.164878
+INFO:root:Train Epoch: 0	Batch Index: 800	Average Loss: 0.085336
+INFO:root:Train Epoch: 0	Batch Index: 900	Average Loss: 0.206841
+INFO:root:Train Epoch: 0	Batch Index: 1000	Average Loss: 0.367337
+INFO:root:Train Epoch: 0	Batch Index: 1100	Average Loss: 0.118559
+INFO:root:Train Epoch: 0	Batch Index: 1200	Average Loss: 0.035650
+INFO:root:Train Epoch: 0	Batch Index: 1300	Average Loss: 0.013130
+INFO:root:Train Epoch: 0	Batch Index: 1400	Average Loss: 0.079229
+INFO:root:Train Epoch: 0	Batch Index: 1500	Average Loss: 0.058478
+INFO:root:Train Epoch: 0	Batch Index: 1600	Average Loss: 0.104592
+INFO:root:Train Epoch: 0	Batch Index: 1700	Average Loss: 0.213688
+INFO:root:Train Epoch: 0	Batch Index: 1800	Average Loss: 0.401249
+INFO:root:Train Epoch: 0	Batch Index: 1900	Average Loss: 0.347820
+INFO:root:Train Epoch: 0	Batch Index: 2000	Average Loss: 0.463431
+INFO:root:Train Epoch: 0	Batch Index: 2100	Average Loss: 0.225436
+INFO:root:Train Epoch: 0	Batch Index: 2200	Average Loss: 1.504066
+INFO:root:Train Epoch: 0	Batch Index: 2300	Average Loss: 0.021936
+INFO:root:Train Epoch: 0	Batch Index: 2400	Average Loss: 0.254787
+INFO:root:Train Epoch: 0	Batch Index: 2500	Average Loss: 0.181348
+INFO:root:Train Epoch: 0	Batch Index: 2600	Average Loss: 1.373696
+INFO:root:Train Epoch: 0	Batch Index: 2700	Average Loss: 0.428492
+INFO:root:Train Epoch: 0	Batch Index: 2800	Average Loss: 0.208683
+INFO:root:Train Epoch: 0	Batch Index: 2900	Average Loss: 0.026598
+INFO:root:Train Epoch: 0	Batch Index: 3000	Average Loss: 0.503229
+INFO:root:Train Epoch: 0	Batch Index: 3100	Average Loss: 0.363077
+INFO:root:Train Epoch: 0	Batch Index: 3200	Average Loss: 0.078469
+INFO:root:Train Epoch: 0	Batch Index: 3300	Average Loss: 0.086744
+INFO:root:Train Epoch: 0	Batch Index: 3400	Average Loss: 0.125009
+INFO:root:Train Epoch: 0	Average Loss: 0.253969
+INFO:root:Eval Epoch: 0 [0/875 (0%)]	Loss: 0.284819
+INFO:root:Eval Epoch: 0 [100/875 (11%)]	Loss: 0.699970
+INFO:root:Eval Epoch: 0 [200/875 (23%)]	Loss: 0.203233
+INFO:root:Eval Epoch: 0 [300/875 (34%)]	Loss: 0.795594
+INFO:root:Eval Epoch: 0 [400/875 (46%)]	Loss: 0.358187
+INFO:root:Eval Epoch: 0 [500/875 (57%)]	Loss: 0.204037
+INFO:root:Eval Epoch: 0 [600/875 (69%)]	Loss: 0.000968
+INFO:root:Eval Epoch: 0 [700/875 (80%)]	Loss: 0.086040
+INFO:root:Eval Epoch: 0 [800/875 (91%)]	Loss: 2.192075
+INFO:root:Evaluation:	Average Loss: 0.651780	Accuracy: 0.8491	Precision: 0.8536	Recall: 0.8491	F1 Score: 0.8464
+INFO:root:Evaluation:	Average Loss: 0.651780
+INFO:root:Train Epoch: 1	Batch Index: 0	Average Loss: 0.210627
+INFO:root:Train Epoch: 1	Batch Index: 100	Average Loss: 0.801335
+INFO:root:Train Epoch: 1	Batch Index: 200	Average Loss: 0.025608
+INFO:root:Train Epoch: 1	Batch Index: 300	Average Loss: 0.008800
+INFO:root:Train Epoch: 1	Batch Index: 400	Average Loss: 0.013797
+INFO:root:Train Epoch: 1	Batch Index: 500	Average Loss: 0.113357
+INFO:root:Train Epoch: 1	Batch Index: 600	Average Loss: 0.146077
+INFO:root:Train Epoch: 1	Batch Index: 700	Average Loss: 0.006634
+INFO:root:Train Epoch: 1	Batch Index: 800	Average Loss: 0.163620
+INFO:root:Train Epoch: 1	Batch Index: 900	Average Loss: 0.004861
+INFO:root:Train Epoch: 1	Batch Index: 1000	Average Loss: 0.014818
+INFO:root:Train Epoch: 1	Batch Index: 1100	Average Loss: 0.003933
+INFO:root:Train Epoch: 1	Batch Index: 1200	Average Loss: 0.015350
+INFO:root:Train Epoch: 1	Batch Index: 1300	Average Loss: 0.020889
+INFO:root:Train Epoch: 1	Batch Index: 1400	Average Loss: 0.085527
+INFO:root:Train Epoch: 1	Batch Index: 1500	Average Loss: 0.029034
+INFO:root:Train Epoch: 1	Batch Index: 1600	Average Loss: 0.441249
+INFO:root:Train Epoch: 1	Batch Index: 1700	Average Loss: 1.058778
+INFO:root:Train Epoch: 1	Batch Index: 1800	Average Loss: 0.410318
+INFO:root:Train Epoch: 1	Batch Index: 1900	Average Loss: 0.573550
+INFO:root:Train Epoch: 1	Batch Index: 2000	Average Loss: 0.038380
+INFO:root:Train Epoch: 1	Batch Index: 2100	Average Loss: 0.455673
+INFO:root:Train Epoch: 1	Batch Index: 2200	Average Loss: 0.200828
+INFO:root:Train Epoch: 1	Batch Index: 2300	Average Loss: 0.021413
+INFO:root:Train Epoch: 1	Batch Index: 2400	Average Loss: 0.181789
+INFO:root:Train Epoch: 1	Batch Index: 2500	Average Loss: 0.145900
+INFO:root:Train Epoch: 1	Batch Index: 2600	Average Loss: 0.159670
+INFO:root:Train Epoch: 1	Batch Index: 2700	Average Loss: 0.001731
+INFO:root:Train Epoch: 1	Batch Index: 2800	Average Loss: 0.340867
+INFO:root:Train Epoch: 1	Batch Index: 2900	Average Loss: 0.040894
+INFO:root:Train Epoch: 1	Batch Index: 3000	Average Loss: 0.234731
+INFO:root:Train Epoch: 1	Batch Index: 3100	Average Loss: 0.129656
+INFO:root:Train Epoch: 1	Batch Index: 3200	Average Loss: 0.257050
+INFO:root:Train Epoch: 1	Batch Index: 3300	Average Loss: 0.201314
+INFO:root:Train Epoch: 1	Batch Index: 3400	Average Loss: 0.119208
+INFO:root:Train Epoch: 1	Average Loss: 0.189144
+INFO:root:Eval Epoch: 0 [0/875 (0%)]	Loss: 0.248547
+INFO:root:Eval Epoch: 0 [100/875 (11%)]	Loss: 0.653360
+INFO:root:Eval Epoch: 0 [200/875 (23%)]	Loss: 0.343214
+INFO:root:Eval Epoch: 0 [300/875 (34%)]	Loss: 0.871837
+INFO:root:Eval Epoch: 0 [400/875 (46%)]	Loss: 0.057945
+INFO:root:Eval Epoch: 0 [500/875 (57%)]	Loss: 0.010890
+INFO:root:Eval Epoch: 0 [600/875 (69%)]	Loss: 0.001886
+INFO:root:Eval Epoch: 0 [700/875 (80%)]	Loss: 0.050329
+INFO:root:Eval Epoch: 0 [800/875 (91%)]	Loss: 2.687017
+INFO:root:Evaluation:	Average Loss: 0.684463	Accuracy: 0.8519	Precision: 0.8553	Recall: 0.8519	F1 Score: 0.8491
+INFO:root:Evaluation:	Average Loss: 0.684463
+INFO:root:Train Epoch: 2	Batch Index: 0	Average Loss: 0.058100
+INFO:root:Train Epoch: 2	Batch Index: 100	Average Loss: 0.021581
+INFO:root:Train Epoch: 2	Batch Index: 200	Average Loss: 0.012931
+INFO:root:Train Epoch: 2	Batch Index: 300	Average Loss: 0.002424
+INFO:root:Train Epoch: 2	Batch Index: 400	Average Loss: 0.032413
+INFO:root:Train Epoch: 2	Batch Index: 500	Average Loss: 0.168953
+INFO:root:Train Epoch: 2	Batch Index: 600	Average Loss: 0.008086
+INFO:root:Train Epoch: 2	Batch Index: 700	Average Loss: 0.118870
+INFO:root:Train Epoch: 2	Batch Index: 800	Average Loss: 0.128585
+INFO:root:Train Epoch: 2	Batch Index: 900	Average Loss: 0.081286
+INFO:root:Train Epoch: 2	Batch Index: 1000	Average Loss: 0.005408
+INFO:root:Train Epoch: 2	Batch Index: 1100	Average Loss: 0.002451
+INFO:root:Train Epoch: 2	Batch Index: 1200	Average Loss: 0.227848
+INFO:root:Train Epoch: 2	Batch Index: 1300	Average Loss: 0.010392
+INFO:root:Train Epoch: 2	Batch Index: 1400	Average Loss: 0.197063
+INFO:root:Train Epoch: 2	Batch Index: 1500	Average Loss: 0.003752
+INFO:root:Train Epoch: 2	Batch Index: 1600	Average Loss: 0.533761
+INFO:root:Train Epoch: 2	Batch Index: 1700	Average Loss: 0.157637
+INFO:root:Train Epoch: 2	Batch Index: 1800	Average Loss: 0.024126
+INFO:root:Train Epoch: 2	Batch Index: 1900	Average Loss: 0.027147
+INFO:root:Train Epoch: 2	Batch Index: 2000	Average Loss: 0.005722
+INFO:root:Train Epoch: 2	Batch Index: 2100	Average Loss: 0.065110
+INFO:root:Train Epoch: 2	Batch Index: 2200	Average Loss: 0.800469
+INFO:root:Train Epoch: 2	Batch Index: 2300	Average Loss: 0.041066
+INFO:root:Train Epoch: 2	Batch Index: 2400	Average Loss: 0.043961
+INFO:root:Train Epoch: 2	Batch Index: 2500	Average Loss: 0.015310
+INFO:root:Train Epoch: 2	Batch Index: 2600	Average Loss: 0.113065
+INFO:root:Train Epoch: 2	Batch Index: 2700	Average Loss: 0.282621
+INFO:root:Train Epoch: 2	Batch Index: 2800	Average Loss: 0.023812
+INFO:root:Train Epoch: 2	Batch Index: 2900	Average Loss: 0.505703
+INFO:root:Train Epoch: 2	Batch Index: 3000	Average Loss: 0.078851
+INFO:root:Train Epoch: 2	Batch Index: 3100	Average Loss: 0.011431
+INFO:root:Train Epoch: 2	Batch Index: 3200	Average Loss: 0.241273
+INFO:root:Train Epoch: 2	Batch Index: 3300	Average Loss: 0.012229
+INFO:root:Train Epoch: 2	Batch Index: 3400	Average Loss: 0.064950
+INFO:root:Train Epoch: 2	Average Loss: 0.144001
+INFO:root:Eval Epoch: 0 [0/875 (0%)]	Loss: 0.108011
+INFO:root:Eval Epoch: 0 [100/875 (11%)]	Loss: 0.609333
+INFO:root:Eval Epoch: 0 [200/875 (23%)]	Loss: 0.104856
+INFO:root:Eval Epoch: 0 [300/875 (34%)]	Loss: 1.066273
+INFO:root:Eval Epoch: 0 [400/875 (46%)]	Loss: 0.233784
+INFO:root:Eval Epoch: 0 [500/875 (57%)]	Loss: 0.000671
+INFO:root:Eval Epoch: 0 [600/875 (69%)]	Loss: 0.000232
+INFO:root:Eval Epoch: 0 [700/875 (80%)]	Loss: 0.059079
+INFO:root:Eval Epoch: 0 [800/875 (91%)]	Loss: 1.792262
+INFO:root:Evaluation:	Average Loss: 0.626526	Accuracy: 0.8594	Precision: 0.8635	Recall: 0.8594	F1 Score: 0.8566
+INFO:root:Evaluation:	Average Loss: 0.626526
+INFO:root:Training completed.
