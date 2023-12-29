@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Classification</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Text Classification</h1>
+
+    <div class="input-container">
+        <label for="textInput">Enter Text:</label>
+        <textarea id="textInput" rows="4" cols="50"></textarea>
+        <button onclick="predict()">Predict</button>
+    </div>
+
+    <div class="result-container">
+        <h3>Result:</h3>
+        <p id="result"></p>
+    </div>
+</div>
+
+<script>
+    async function predict() {
+        const textInput = document.getElementById('textInput').value;
+        const response = await fetch('http://127.0.0.1:8000/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({text: textInput})
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            const resultElement = document.getElementById('result');
+            resultElement.innerHTML = `Class: <span class="${result.sentiment.toLowerCase()}">${result.sentiment}</span>, Confidence: ${result.confidence}`;
+
+            // Add dynamic styling based on sentiment
+            document.body.style.backgroundColor = getBackgroundColor(result.sentiment);
+            document.querySelector('.container').style.boxShadow = getBoxShadow(result.sentiment);
+            document.querySelector('.input-container').style.marginBottom = getMarginBottom(result.sentiment);
+            document.getElementById('textInput').style.borderColor = getBorderColor(result.sentiment);
+            document.querySelector('button').style.backgroundColor = getButtonColor(result.sentiment);
+            resultElement.style.backgroundColor = getResultBackgroundColor(result.sentiment);
+        } else {
+            document.getElementById('result').innerText = 'Error predicting the text.';
+        }
+    }
+
+    function getBackgroundColor(sentiment) {
+        switch (sentiment.toLowerCase()) {
+            case 'positive':
+                return '#b3ffb3';
+            case 'negative':
+                return '#ffb3b3';
+            default:
+                return '#e6e6e6';
+        }
+    }
+
+    function getBoxShadow(sentiment) {
+        return sentiment.toLowerCase() === 'neutral' ? '0 0 10px rgba(0, 0, 0, 0.1)' : '0 0 10px rgba(255, 0, 0, 0.1)';
+    }
+
+    function getMarginBottom(sentiment) {
+        return sentiment.toLowerCase() === 'neutral' ? '20px' : '10px';
+    }
+
+    function getBorderColor(sentiment) {
+        return sentiment.toLowerCase() === 'neutral' ? '#ccc' : '#ff0000';
+    }
+
+    function getButtonColor(sentiment) {
+        return sentiment.toLowerCase() === 'neutral' ? '#4caf50' : '#ff0000';
+    }
+
+    function getResultBackgroundColor(sentiment) {
+        switch (sentiment.toLowerCase()) {
+            case 'positive':
+                return '#dff0d8';
+            case 'negative':
+                return '#f2dede';
+            case 'neutral':
+                return '#d9edf7';
+            default:
+                return '#ffffff';
+        }
+    }
+</script>
+
+</body>
+</html>
