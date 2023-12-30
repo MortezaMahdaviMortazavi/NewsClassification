@@ -2,7 +2,14 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
+import math
 from feature_extraction import Embedding, EmbeddingWithPositionalEncoding
+from dataclasses import dataclass
+
+@dataclass
+class AttentionConfig:
+    pass
+
 
 class RNN(nn.Module):
     def __init__(
@@ -125,77 +132,54 @@ class AddNorm(nn.Module):
         output = self.layer_norm(x + sub_layer_output)
         return output
     
-class Block(nn.Module):
-    def __init__(self,d_model,max_seq_len,n_embed,n_heads,dropout=0.2):
+
+class CausalSelfAttention(nn.Module):
+
+    def __init__(self, config):
         super().__init__()
-        head_size = n_embed // n_heads
-        self.masked_attention = MaskedMultiHeadAttention(
-            num_heads=n_heads,
-            head_size=head_size,
-            embed_size=n_embed,
-            block_size=max_seq_len
-        )
-        
-        self.ln1 = AddNorm(n_embed=n_embed)
-        self.ln2 = AddNorm(n_embed=n_embed)
-        self.feedforward = FeedForward(
-            n_embed=n_embed,
-            dropout=0.1
-        )
-        self.ln3 = AddNorm(n_embed=n_embed)
-        self.dropout = nn.Dropout(dropout)
+        assert config.n_embd % config.n_head == 0
+        # key, query, value projections for all heads, but in a batch
+        self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd, bias=config.bias)
+        # output projection
+        self.c_proj = nn.Linear(config.n_embd, config.n_embd, bias=config.bias)
+        # regularization
+        self.attn_dropout = nn.Dropout(config.dropout)
+        self.resid_dropout = nn.Dropout(config.dropout)
+        self.n_head = config.n_head
+        self.n_embd = config.n_embd
+        self.dropout = config.dropout
+        # flash attention make GPU go brrrrr but support is only in PyTorch >= 2.0
+        self.flash = hasattr(torch.nn.functional, 'scaled_dot_product_attention')
+        if not self.flash:
+            print("WARNING: using slow attention. Flash Attention requires PyTorch >= 2.0")
+            # causal mask to ensure that attention is only applied to the left in the input sequence
+            self.register_buffer("bias", torch.tril(torch.ones(config.block_size, config.block_size))
+                                        .view(1, 1, config.block_size, config.block_size))
 
-    def forward(self,embed_output):
-        identity = embed_output
-        masked_attn_out = self.masked_attention(embed_output)
-        out = self.ln1(masked_attn_out,identity)
-        identity = out
-        out = self.feedforward(out)               
-        out = self.ln2(out,identity)
-        return out
+    def forward(self, x):
+        B, T, C = x.size() # batch size, sequence length, embedding dimensionality (n_embd)
 
+        # calculate query, key, values for all heads in batch and move head forward to be the batch dim
+        q, k, v  = self.c_attn(x).split(self.n_embd, dim=2)
+        k = k.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
+        q = q.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
+        v = v.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
 
-class Transformer(nn.Module):
-    def __init__(self,
-                 vocab_size,
-                 embed_dim,
-                 n_heads,
-                 num_layers,
-                 max_seq_len=40
-            ):
-        super().__init__()
-        self.embedding = EmbeddingWithPositionalEncoding(vocab_size=vocab_size,
-                                                               d_model=embed_dim,
-                                                               max_seq_len=max_seq_len)
+        # causal self-attention; Self-attend: (B, nh, T, hs) x (B, nh, hs, T) -> (B, nh, T, T)
+        if self.flash:
+            # efficient attention using Flash Attention CUDA kernels
+            y = torch.nn.functional.scaled_dot_product_attention(q, k, v, attn_mask=None, dropout_p=self.dropout if self.training else 0, is_causal=True)
+        else:
+            # manual implementation of attention
+            att = (q @ k.transpose(-2, -1)) * (1.0 / math.sqrt(k.size(-1)))
+            att = att.masked_fill(self.bias[:,:,:T,:T] == 0, float('-inf'))
+            att = F.softmax(att, dim=-1)
+            att = self.attn_dropout(att)
+            y = att @ v # (B, nh, T, T) x (B, nh, T, hs) -> (B, nh, T, hs)
+        y = y.transpose(1, 2).contiguous().view(B, T, C) # re-assemble all head outputs side by side
 
-        
-        self.blocks = nn.ModuleList(
-            [Block(d_model=embed_dim,
-                          max_seq_len=max_seq_len,
-                          n_embed=embed_dim,
-                          n_heads=n_heads)]
-            )
-
-        self.fc = nn.Linear(embed_dim,vocab_size)
+        # output projection
+        y = self.resid_dropout(self.c_proj(y))
+        return y
     
-    def forward(self,inp):
-        # Embed question and answer sequences
-        embed = self.embedding(inp)
-        # # Apply Decoder layers
-        attention_mask = self._generate_square_subsequent_mask(inp)
-        # output,_ = self.rnn(embed)
-        output = embed
-        for layer in self.blocks:
-            output = layer(output)
-        
-        # output,_ = self.lstm(output)
-        # # Map decoder output to answer vocabulary using linear layer
-        output = self.fc(output)
-        # output = F.softmax(logits)
-        return output
-    
-    def _generate_square_subsequent_mask(self, tensor):
-        mask = (torch.triu(torch.ones(tensor.size(-1), tensor.size(-1))) == 1).transpose(0, 1)
-        mask = mask.float().masked_fill(mask == 0, float('-inf')).masked_fill(mask == 1, float(0.0))
-        return mask.to(tensor.device)
-    
+

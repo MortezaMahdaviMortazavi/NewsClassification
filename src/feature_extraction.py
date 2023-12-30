@@ -1,101 +1,237 @@
 import math
 import torch
 import torch.nn as nn
+import config
 from collections import Counter
 
+"""
+    Miscellaneous        
+    Economy                
+    Politics               
+    Sport                
+    Science and Culture    
+    Social                  
+    Literature and Art      
+"""
+keywords = {
+     "Sport":["ورزش",
+                "فوتبال",
+                "بسکتبال",
+                "تنیس",
+                "والیبال",
+                "هاکی",
+                "بوکس",
+                "دوچرخه‌سواری",
+                "شنا",
+                "رزمی",
+                "برگزاری",
+                "تیم",
+                "مسابقه",
+                "امتیاز",
+                "جام",
+                "لیگ",
+                "بازیکن",
+                "مربی",
+                "استادیوم",
+                "حریف"        
+        ],
+    "Science and Culture":[
+                "علم",
+                "فرهنگ",
+                "هنر",
+                "دانش",
+                "فناوری",
+                "تاریخ",
+                "زبان",
+                "آثار",
+                "آموزش",
+                "موسیقی",
+                "نقاشی",
+                "ادبیات",
+                "فلسفه",
+                "نمایش",
+                "پژوهش",
+                "کتاب",
+                "هنرمند",
+                "موزه",
+                "معماری",
+                "سینما",
+                "دین",
+                "هنرجو",
+                "معمار",
+                "فرهنگی",
+                "اجتماعی",
+                "نظریه",
+                "نویسنده",
+                "جوایز",
+                "جشنواره",
+            ]
+            ,
+    "Economy":[
+                "اقتصاد",
+                "بازار",
+                "ارز",
+                "تورم",
+                "بانک",
+                "سرمایه",
+                "سهام",
+                "بورس",
+                "تجارت",
+                "صنعت",
+                "تولید",
+                "صادرات",
+                "واردات",
+                "قیمت",
+                "نرخ",
+                "بودجه",
+                "افزایش",
+                "کاهش",
+                "سرمایه‌گذاری",
+                "اشتغال",
+                "بیکاری",
+                "منابع",
+                "کسب‌وکار",
+                "سرمایه‌داری",
+                "رشد",
+                "درآمد",
+                "توسعه",
+                "دولت",
+                "تحریم",
+            ],
+    "Miscellaneous":[
+                "متفرقه",
+                "گوناگون",
+                "مختلف",
+                "عجیب",
+                "متنوع",
+                "غیرمرتبط",
+                "چندرشته",
+                "گنگ",
+                "مزخرف",
+                "عجیب‌وغریب",
+                "تفریحی",
+                "چرت",
+                "تفریحات",
+                "جالب",
+                "عجیب‌ترین",
+                "چرکین",
+                "بی‌ربط",
+                "تفریح‌انگیز",
+                "متفرق",
+                "عجیبی",
+                "پرتوه",
+                "پنبه‌ای",
+                "متفاوت",
+                "گجت",
+                "کوریوز",
+                "ناخوشایند",
+                "هولناک",
+            ],
+    "Politics":[
+                "سیاست",
+                "حکومت",
+                "انتخابات",
+                "سیاستمدار",
+                "قانون",
+                "براندازی",
+                "سیاستگذاری",
+                "نهضت",
+                "رئیس‌جمهور",
+                "پارلمان",
+                "مجلس",
+                "دولت",
+                "اصلاحات",
+                "تحولات",
+                "رهبری",
+                "معارضه",
+                "اقتدار",
+                "جمهوری",
+                "شورای‌نگهبان",
+                "توافق",
+                "تعهدات",
+                "جنبش",
+                "استبداد",
+                "ترور",
+                "پلیسی",
+                "سفارت",
+                "خارجی",
+                "انقلاب",
+                "جنگ",
+            ],
+    "Literature and Art":[
+                "ادبیات",
+                "هنر",
+                "شاعر",
+                "نقد",
+                "داستان",
+                "شعر",
+                "نمایشنامه",
+                "پژوهش‌های‌ادبی",
+                "زبان‌شناسی",
+                "نقدادبی",
+                "تاریخ‌هنر",
+                "هنرهای‌تجسمی",
+                "نقاشی",
+                "موسیقی",
+                "سینما",
+                "تئاتر",
+                "نمایش",
+                "عکاسی",
+                "فلسفه",
+                "تصویرسازی",
+                "معماری",
+                "فلسفه‌هنر",
+                "آثارادبی",
+                "هنرمندان",
+                "نمایشگاه",
+                "استودیو",
+                "مجسمه",
+                "سرود",
+                "گالری",
+            ],
+    "Social" : [
+                "اجتماع",
+                "جامعه",
+                "اقشار",
+                "خانواده",
+                "جوانان",
+                "کودکان",
+                "زنان",
+                "مهاجرت",
+                "بی‌خانمانی",
+                "فقر",
+                "آسیب‌های‌اجتماعی",
+                "تربیت",
+                "عدالت",
+                "تفرقه",
+                "دینی",
+                "اخلاق",
+                "نگرانی‌های‌اجتماعی",
+                "مسکن",
+                "آموزش",
+                "حقوق",
+                "سلامت",
+                "رفاه",
+                "بهداشت",
+                "سواد",
+                "بهبود",
+                "خدمات",
+                "افترا",
+                "تبعیض",
+            ]
+}
 
-# class TFIDFVectorizer:
-    # def __init__(self):
-    #     """Initialize the TFIDFVectorizer with empty attributes."""
-    #     self.documents = []            # List to store input documents
-    #     self.doc_count = 0             # Total number of documents
-    #     self.term_freq = []            # List to store term frequencies for each document
-    #     self.inverse_doc_freq = {}     # Dictionary to store inverse document frequencies for each term
-    #     self.vocab = set()             # Set to store the unique vocabulary of all documents
-
-    # def _build_vocab(self):
-    #     """Build the vocabulary from the documents."""
-    #     for doc in self.documents:
-    #         tokens = doc.split()
-    #         self.vocab.update(tokens)
-
-    # def _calculate_term_frequency(self, document):
-    #     """Calculate the term frequency (TF) for a given document."""
-    #     tokens = document.split()
-    #     term_freq = Counter(tokens)
-    #     return term_freq
-
-    # def _calculate_inverse_doc_frequency(self):
-    #     """Calculate the inverse document frequency (IDF) for each term in the vocabulary."""
-    #     for term in self.vocab:
-    #         doc_count_with_term = sum(1 for doc in self.documents if term in doc.split())
-    #         self.inverse_doc_freq[term] = math.log(self.doc_count / (1 + doc_count_with_term))
-
-    # def fit_transform(self, new_documents):
-    #     """
-    #     Update the model with new documents and return the TF-IDF matrix for all documents.
-
-    #     Parameters:
-    #     - new_documents: List of new documents to update the model.
-
-    #     Returns:
-    #     - tfidf_matrix: TF-IDF matrix for all documents.
-    #     """
-    #     self.documents.extend(new_documents)
-    #     self.doc_count += len(new_documents)
-
-    #     self._build_vocab()
-
-    #     for doc in new_documents:
-    #         term_freq = self._calculate_term_frequency(doc)
-    #         self.term_freq.append(term_freq)
-
-    #     self._calculate_inverse_doc_frequency()
-
-    #     tfidf_matrix = []
-    #     for doc_term_freq in self.term_freq:
-    #         tfidf_vector = [0.0] * len(self.vocab)
-    #         for i, term in enumerate(self.vocab):
-    #             tf = doc_term_freq[term]
-    #             idf = self.inverse_doc_freq[term] if term in self.inverse_doc_freq else 0.0
-    #             tfidf_vector[i] = tf * idf
-    #         tfidf_matrix.append(tfidf_vector)
-
-    #     return tfidf_matrix
-
-    # def transform(self, new_document):
-    #     """
-    #     Transform a new document into a TF-IDF vector using the existing model.
-
-    #     Parameters:
-    #     - new_document: The new document to transform.
-
-    #     Returns:
-    #     - tfidf_vector: TF-IDF vector for the new document.
-    #     """
-    #     term_freq = self._calculate_term_frequency(new_document)
-    #     tfidf_vector = [0.0] * len(self.vocab)
-
-    #     for i, term in enumerate(self.vocab):
-    #         tf = term_freq[term]
-    #         idf = self.inverse_doc_freq[term] if term in self.inverse_doc_freq else 0.0
-    #         tfidf_vector[i] = tf * idf
-
-    #     return tfidf_vector
-
-    # def update(self, new_documents):
-    #     """
-    #     Update the model with new documents and return the TF-IDF matrix for all documents.
-
-    #     Parameters:
-    #     - new_documents: List of new documents to update the model.
-
-    #     Returns:
-    #     - tfidf_matrix: TF-IDF matrix for all documents.
-    #     """
-    #     tfidf_matrix = self.fit_transform(new_documents)
-    #     return tfidf_matrix
-
+def vectorize(text):
+    all_words = [keywords[class_] for class_ in config.CLASSES]
+    vector = [0] * sum([keywords[class_] for class_ in config.CLASSES])
+    # vector
+    idx = 0
+    for class_ in config.CLASSES:
+        for word in keywords[class_]:
+            if word in text:
+                pass
+        pass
+    return vector
 
 
 class Embedding(nn.Module):
@@ -136,3 +272,26 @@ class EmbeddingWithPositionalEncoding(nn.Module):
         pos_emb = self.positional_embedding(pos)
         token_emb = self.token_embedding(x)  # shape (batch_size, seq_len, d_model)
         return self.dropout(token_emb + pos_emb)
+    
+
+# if __name__ == "__main__":
+#     # Create a random matrix A
+#     A = torch.rand((3, 4))
+#     print(A)
+#     U, S, V = torch.svd(A)
+#     print("U matrix:")
+#     print(U)
+
+#     print("\nS matrix (diagonal matrix of singular values):")
+#     print(S)
+
+#     print("\nV matrix (transpose of right singular vectors):")
+#     print(V)
+#     S_diag = torch.diag(S)
+
+#     A_reconstructed = torch.mm(torch.mm(U, S_diag), V.t())
+#     print("Original Matrix:")
+#     print(A)
+
+#     print("\nReconstructed Matrix:")
+#     print(A_reconstructed)
